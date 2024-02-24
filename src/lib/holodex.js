@@ -1,4 +1,4 @@
-import { HOLODEX_API_KEY } from "$env/static/private";
+import { HOLODEX_API_KEY } from "$env/dynamic/private";
 import { HolodexApiClient } from "holodex.js";
 
 const client = new HolodexApiClient({

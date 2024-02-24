@@ -1,5 +1,5 @@
 import { Surreal } from 'surrealdb.js';
-import { SURREAL_URL, SURREAL_NAME, SURREAL_PASS, SURREAL_DB, SURREAL_NS } from "$env/static/private";
+import { SURREAL_URL, SURREAL_NAME, SURREAL_PASS, SURREAL_DB, SURREAL_NS } from "$env/dynamic/private";
 
 export const surreal = new Surreal();
 
