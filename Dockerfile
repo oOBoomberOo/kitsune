@@ -1,6 +1,10 @@
 FROM node:20
 
 RUN npm install
+
+WORKDIR /app
+COPY . .
+
 RUN npm run build
 
-ENTRYPOINT [ "node", "." ]
+ENTRYPOINT [ "node", "/app/build/inex.js" ]
