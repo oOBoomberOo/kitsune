@@ -1,8 +1,8 @@
-import { HOLODEX_API_KEY } from "$env/dynamic/private";
+import { env } from "$env/dynamic/private";
 import { HolodexApiClient } from "holodex.js";
 
 const client = new HolodexApiClient({
-	apiKey: HOLODEX_API_KEY
+	apiKey: env.HOLODEX_API_KEY
 })
 
 export async function fillInVideoInfo(id) {
