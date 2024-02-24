@@ -1,60 +1,63 @@
-@import '@fontsource/fira-mono';
+@import url('https://fonts.googleapis.com/css?family=Inter');
 
-html, body {
-	font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	height: 100%;
+html, head, body {
+	font-family: 'Inter', sans-serif;
+
 	margin: 0;
-	color-scheme: light;
+	padding: 0;
 }
 
-body>div {
-	height: 100%;
-	color-scheme: light;
-}
+input {
+	flex-grow: 1;
+	font-size: medium;
 
-:root {
-	color-scheme: light;
-}
+	outline: none;
+	border: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
-:root {
-	--background-color: #f0f0f0;
-	--secondary-background-color: #e9e9e9;
-	--hover-background-color: #cfcfcf;
-	--text-color: #1e1e1e;
-	--secondary-text-color: #424242;
-	--link-color: #00a8ff;
-	--link-hover-color: #00a8ff;
-	--link-visited-color: #00a8ff;
-	--primary-color: #00a8ff;
-	--primary-color-dark: #0077b6;
-	--secondary-color: #1e1e1e;
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background-color: #1e1e1e;
-		--secondary-background-color: #2e2e2e;
-		--hover-background-color: #464646;
-		--text-color: #f0f0f0;
-		--secondary-text-color: #c5c5c5;
-		--link-color: #00a8ff;
-		--link-hover-color: #00a8ff;
-		--link-visited-color: #00a8ff;
-		--primary-color: #00a8ff;
-		--primary-color-dark: #0077b6;
-		--secondary-color: #f0f0f0;
+	&:focus {
+		border-bottom: 1px solid black;
 	}
 }
 
-body {
-	background-color: var(--background-color);
-	color: var(--text-color);
+input[type=datetime-local] {
+	font-size: 16px;
 }
 
-a {
-	color: var(--link-color);
+select {
+	font-size: medium;
+
+	outline: none;
+	border: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+	&:focus {
+		border-bottom: 1px solid black;
+	}
 }
 
-a:hover {
-	color: var(--link-hover-color);
+input[type=submit], button[type=submit] {
+	font-size: medium;
+	font-weight: bold;
+
+	padding: 5px 10px;
+
+	border: none;
+	border-radius: 5px;
+
+	background-color: #007bff;
+	color: white;
+
+	cursor: pointer;
+
+	&:hover {
+		background-color: #0056b3;
+	}
+}
+
+button:disabled {
+	background-color: #d3d3d3;
+	color: #a9a9a9;
+
+	cursor: not-allowed;
 }

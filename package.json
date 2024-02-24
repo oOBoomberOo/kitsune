@@ -36,12 +36,17 @@
 	"dependencies": {
 		"fp-ts": "^2.16.2",
 		"fp-ts-std": "^0.18.0",
+		"holodex.js": "^2.0.5",
+		"human-number": "^2.0.4",
 		"io-ts": "^2.2.21",
 		"io-ts-types": "^0.5.19",
 		"luxon": "^3.4.4",
 		"monocle-ts": "^2.3.13",
 		"object.groupby": "^1.0.1",
+		"oso": "^0.27.3",
 		"spectacles-ts": "^1.0.7",
-		"surrealdb.js": "^0.11.0"
+		"surrealdb.js": "^0.11.0",
+		"ts-pattern": "^5.0.8",
+		"zod": "^3.22.4"
 	}
 }
