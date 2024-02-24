@@ -7,4 +7,4 @@ COPY . .
 
 RUN npm run build
 
-ENTRYPOINT [ "node", "/app/build/inex.js" ]
+ENTRYPOINT [ "node", "/app/build/index.js" ]
