@@ -29,7 +29,6 @@ async function getTrackers({ search, key, order }) {
 			trackers
 		where
 			title @1@ $search
-			or video contains $search
 		order by
 			${key} ${order} -- SQL injection!! Surreal does not support this level of dynamic SQL, make sure to validate them before using them in a query
 		fetch stats;
