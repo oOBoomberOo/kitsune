@@ -1,5 +1,6 @@
 <script>
 	import { relativeDate } from "$lib/timing";
+	import { DateTime } from "luxon";
 
 	export let timestamp;
 	export let period;
@@ -7,8 +8,8 @@
 	const target = predictTimestamp(timestamp, period);
 
 	export function predictTimestamp(start, interval) {
-		const now = new Date();
-		const scheduled_on = new Date(start);
+		const now = DateTime.now();
+		const scheduled_on = DateTime.fromISO(start);
 
 		if (scheduled_on > now) {
 			return scheduled_on;
@@ -16,7 +17,7 @@
 
 		const timeLeft = interval - (now.valueOf() - scheduled_on.valueOf()) % interval;
 
-		return new Date(now.valueOf() + timeLeft);
+		return DateTime.fromMillis(now.valueOf() + timeLeft);
 	}
 </script>
 

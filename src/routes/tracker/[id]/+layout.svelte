@@ -1,6 +1,6 @@
 <script>
 	import Prediction from '$lib/components/Prediction.svelte';
-	import { localTime } from '$lib/timing';
+	import { absoluteDate, localTime } from '$lib/timing';
 
 	export let data;
 
@@ -36,7 +36,7 @@
 			{#if tracker.stopped_at}
 				Stopped at <time datetime={tracker.stopped_at}>{tracker.stopped_at}</time>
 			{:else if new Date(tracker.scheduled_on) < new Date()}
-				Running since <time datetime={tracker.scheduled_on}>{tracker.scheduled_on}</time>
+				Running since <time datetime={tracker.scheduled_on}>{absoluteDate(tracker.scheduled_on)}</time>
 			{:else}
 				Not started yet
 			{/if}
