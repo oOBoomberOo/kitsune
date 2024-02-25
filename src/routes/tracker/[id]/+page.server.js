@@ -40,7 +40,7 @@ export const actions = {
 export async function load({ params }) {
 	const trackerId = params.id;
 
-	const [tracker = null, records] = await surreal.query(`
+	const [tracker = null, records, logs] = await surreal.query(`
 		select
 			id,
 			title,
@@ -68,6 +68,12 @@ export async function load({ params }) {
 		order by
 			created_at desc;
 
+		select
+			*
+		from
+			logs
+		where
+			<-wrote<-trackers contains $tracker;
 	`, { tracker: trackerId });
 
 	if (!tracker) {
@@ -77,8 +83,11 @@ export async function load({ params }) {
 		}
 	}
 
+	console.log(logs);
+
 	return {
 		tracker,
 		records,
+		logs,
 	}
 }

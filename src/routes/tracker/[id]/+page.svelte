@@ -39,11 +39,8 @@
 	}
 
 	async function copyStatsToClipboard() {
-
 		// copy table to csv
-		const csv = data.records
-			.map(row => `${row.created_at},${row.views},${row.likes}`)
-			.join('\n');
+		const csv = data.records.map((row) => `${row.created_at},${row.views},${row.likes}`).join('\n');
 
 		await navigator.clipboard.writeText(csv);
 	}
@@ -138,38 +135,59 @@
 
 <hr />
 
-	<section class="clipboard">
-		<button on:click={copyStatsToClipboard}>Copy to Clipboard</button>
-	</section>
+<section class="clipboard">
+	<button on:click={copyStatsToClipboard}>Copy to Clipboard</button>
+</section>
 
 <article id="table">
-	<table class="stats">
-		<thead>
-			<th>Duplicate</th>
-			<th>Timestamp</th>
-			<th>Views</th>
-			<th>Likes</th>
-		</thead>
+	<section>
+		<h2>Stats</h2>
 
-		{#each stats as item (item.id)}
-			<tr>
+		<table class="stats">
+			<thead>
+				<th>Duplicate</th>
+				<th>Timestamp</th>
+				<th>Views</th>
+				<th>Likes</th>
+			</thead>
 
-				{#if item.type === 'group'}
-					<td>x{item.children.length + 1}</td>
-					<td class="timestamp"
-						>{absoluteDate(item.time_range.from)} - {absoluteDate(item.time_range.to)}</td
-					>
-					<td>{number(item.views)}</td>
-					<td>{number(item.likes)}</td>
-				{:else}
-					<td></td>
-					<td class="timestamp">{absoluteDate(item.created_at)}</td>
-					<td>{number(item.views)}</td>
-					<td>{number(item.likes)}</td>
-				{/if}
-			</tr>
-		{/each}
-	</table>
+			{#each stats as item (item.id)}
+				<tr>
+					{#if item.type === 'group'}
+						<td>x{item.children.length + 1}</td>
+						<td class="timestamp"
+							>{absoluteDate(item.time_range.from)} - {absoluteDate(item.time_range.to)}</td
+						>
+						<td>{number(item.views)}</td>
+						<td>{number(item.likes)}</td>
+					{:else}
+						<td></td>
+						<td class="timestamp">{absoluteDate(item.created_at)}</td>
+						<td>{number(item.views)}</td>
+						<td>{number(item.likes)}</td>
+					{/if}
+				</tr>
+			{/each}
+		</table>
+	</section>
+
+	<section>
+		<h2>Errors</h2>
+
+		<table class="logs">
+			<thead>
+				<th>Timestamp</th>
+				<th>Message</th>
+			</thead>
+
+			{#each data.logs as log (log.id)}
+				<tr>
+					<td class="timestamp">{absoluteDate(log.created_at)}</td>
+					<td>{log.message}</td>
+				</tr>
+			{/each}
+		</table>
+	</section>
 </article>
 
 <style>
@@ -192,37 +210,44 @@
 	#table {
 		display: grid;
 
-		grid-template-columns: 1fr 60% 1fr;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: auto;
+
+		& table {
+			width: 100%;
+			height: auto;
+			font-family: 'Roboto Mono', monospace;
+
+			& th {
+				background-color: #f4f4f4;
+				padding: 0.5em;
+			}
+
+			& td {
+				padding: 0.5em;
+				text-align: right;
+			}
+
+			& tr:nth-child(odd) {
+				background-color: #f4f4f4;
+			}
+
+			& .timestamp {
+				text-wrap: nowrap;
+			}
+		}
+	}
+
+	#table table.logs {
+		& tr, td {
+			text-align: left;
+		}
 	}
 
 	.clipboard {
 		display: flex;
 		justify-content: end;
 		margin: 15px;
-	}
-
-	.stats {
-		grid-column: 2;
-		width: 100%;
-		font-family: 'Roboto Mono', monospace;
-
-		& th {
-			background-color: #f4f4f4;
-			padding: 0.5em;
-		}
-
-		& td {
-			padding: 0.5em;
-			text-align: right;
-		}
-
-		& tr:nth-child(odd) {
-			background-color: #f4f4f4;
-		}
-
-		& .timestamp {
-			text-wrap: nowrap;
-		}
 	}
 
 	article {

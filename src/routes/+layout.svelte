@@ -4,6 +4,7 @@
 
 <nav>
 	<a data-sveltekit-reload href="/">Home</a>
+	<a data-sveltekit-reload href="/error">Errors</a>
 </nav>
 
 <slot></slot>
@@ -18,6 +19,9 @@
 		padding: 1rem;
 
 		z-index: 5;
+
+		display: flex;
+		gap: 15px;
 	}
 
 	a {
