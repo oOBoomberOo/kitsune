@@ -14,7 +14,7 @@
 
 		{#each data.logs as log (log.id)}
 			<tr>
-				<td class="fit">{log.created_at}</td>
+				<td class="fit">{absoluteDate(log.created_at)}</td>
 				<td class="fit">
 					<a href="/tracker/{log.tracker.id}">{log.tracker.id}</a>
 				</td>
@@ -33,7 +33,7 @@
 	}
 
 	table {
-		width: 60%;
+		width: 100%;
 		height: auto;
 		font-family: 'Roboto Mono', monospace;
 
