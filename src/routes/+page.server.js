@@ -11,29 +11,6 @@ const Key = z.enum(["scheduled_on", "created_at", "recent_views", "interval"]);
 const Ordering = z.enum(["asc", "desc"]);
 
 async function getTrackers({ search, key, order }) {
-	if (!search) {
-		return await surreal.query(`
-			select
-				id,
-				created_at,
-				scheduled_on,
-				interval,
-				duration::millis(interval) as interval_ms,
-				milestone,
-				video,
-				title,
-				stopped_at,
-				!!stopped_at as stopped,
-				math::max(->recorded->records.views) as current_views,
-				array::first(array::sort(->recorded->records.created_at)) as recent_views
-			from
-				trackers
-			order by
-				${key} ${order} -- SQL injection!! Surreal does not support this level of dynamic SQL, make sure to validate them before using them in a query
-			fetch stats;
-		`, {});
-	}
-
 	return await surreal.query(`
 		select
 			id,
@@ -47,7 +24,7 @@ async function getTrackers({ search, key, order }) {
 			video,
 			search::highlight('<em>', '</em>', 1) as title,
 			math::max(->recorded->records.views) as current_views,
-			array::first(array::sort(->recorded->records.created_at)) as recent_views
+			array::last(array::sort(->recorded->records.created_at)) as recent_views
 		from
 			trackers
 		where
