@@ -22,13 +22,13 @@ async function getTrackers({ search, key, order }) {
 			duration::millis(interval) as interval_ms,
 			milestone,
 			video,
-			title,
+			search::highlight('<em>', '</em>', 1) as title,
 			math::max(->recorded->records.views) as current_views,
 			array::last(array::sort(->recorded->records.created_at)) as recent_views
 		from
 			trackers
 		where
-			title contains $search or video contains $search
+			title @1@ $search OR video contains $search
 		order by
 			${key} ${order} -- SQL injection!! Surreal does not support this level of dynamic SQL, make sure to validate them before using them in a query
 		fetch stats;
@@ -37,7 +37,7 @@ async function getTrackers({ search, key, order }) {
 }
 
 export async function load({ url }) {
-	const search = url.searchParams.get('q');
+	const search = url.searchParams.get('q') ?? "";
 	const rawKey = url.searchParams.get('key') ?? "scheduled_on";
 	const rawOrder = url.searchParams.get('order') ?? "desc";
 
