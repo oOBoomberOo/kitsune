@@ -6,6 +6,11 @@
 	let local_scheduled_on = localTime(data.available_at);
 </script>
 
+
+<svelte:head>
+	<title>Create - {data.title}</title>
+</svelte:head>
+
 <form method="post">
 	<input type="hidden" name="video" value="{data.video}">
 
@@ -31,6 +36,16 @@
 
 	<section>
 		<button type="submit">Add Tracker</button>
+	</section>
+
+	<section class="video">
+		<iframe
+			src="https://www.youtube.com/embed/{data.video}"
+			title={data.title}
+			frameborder="0"
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+			allowfullscreen
+		></iframe>
 	</section>
 
 </form>
@@ -60,5 +75,16 @@
 
 	input {
 		width: 100%;
+	}
+
+	.video {
+		margin-top: 3em;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+
+		& iframe {
+			width: 100%;
+			height: 100%;
+		}
 	}
 </style>

@@ -4,7 +4,7 @@
 
 <nav>
 	<a data-sveltekit-reload href="/">Home</a>
-	<a data-sveltekit-reload href="/error">Errors</a>
+	<a data-sveltekit-reload href="/logs">Logs</a>
 </nav>
 
 <slot></slot>

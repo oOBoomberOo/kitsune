@@ -12,6 +12,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Home - VTuber Music Trackers</title>
+</svelte:head>
+
 <section class="search-bar">
 	<form method="get" data-sveltekit-reload>
 		<select name="key" id="sort-key" value={form.key} required>
@@ -259,5 +263,39 @@
 		filter: grayscale(100%);
 		opacity: 0.5;
 		pointer-events: none;
+	}
+	@media (max-width: 600px) {
+		.search-bar {
+			padding: 5px;
+		}
+
+		.search-bar form {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr;
+			width: 100%;
+		}
+
+		.search-bar #search {
+			grid-column: 1 / -1;
+		}
+
+		.search-bar button {
+			display: none;
+		}
+
+		.container {
+			margin: 0;
+			gap: 0;
+		}
+
+		.card {
+			border-radius: 0;
+			gap: 0;
+		}
+		
+
+		footer {
+		}
 	}
 </style>

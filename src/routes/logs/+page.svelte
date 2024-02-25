@@ -4,6 +4,10 @@
 	export let data;
 </script>
 
+<svelte:head>
+	<title>Logs - {data.logs.length} entries</title>
+</svelte:head>
+
 <main>
 	<table>
 		<thead>
@@ -33,30 +37,36 @@
 	}
 
 	table {
-		width: 100%;
-		height: auto;
-		font-family: 'Roboto Mono', monospace;
-
-		& th {
-			background-color: #f4f4f4;
-			padding: 0.5em;
-		}
-
-		& td {
-			padding: 0.5em;
-			text-align: right;
-		}
-
-		& tr:nth-child(odd) {
-			background-color: #f4f4f4;
-		}
-
 		& .fit {
 			text-wrap: nowrap;
 		}
 
 		& .message {
 			text-align: left;
+		}
+	}
+
+	@media (max-width: 600px) {
+		table {
+			font-size: 0.8em;
+		}
+
+		tr {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto 1fr;
+			grid-template-areas:
+				"timestamp tracker"
+				"message message";
+		}
+
+		tr td {
+			text-align: left;
+			border: none;
+		}
+
+		.message {
+			grid-area: message;
 		}
 	}
 </style>

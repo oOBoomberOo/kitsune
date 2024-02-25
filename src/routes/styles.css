@@ -61,3 +61,63 @@ button:disabled {
 
 	cursor: not-allowed;
 }
+
+
+
+table {
+	width: 100%;
+	height: auto;
+	font-family: 'Roboto Mono', monospace;
+
+	th {
+		background-color: #f4f4f4;
+		padding: 0.5em;
+	}
+
+	td {
+		padding: 0.5em;
+		text-align: right;
+	}
+
+	tr:nth-child(odd) {
+		background-color: #f4f4f4;
+	}
+
+	.timestamp {
+		text-wrap: nowrap;
+	}
+}
+
+@media (max-width: 600px) {
+	table {
+		display: flex;
+		flex-direction: column;
+	}
+
+	thead {
+		display: none;
+	}
+
+	tr {
+		display: grid;
+		grid-template-columns: 1fr auto auto;
+		grid-template-rows: auto 1fr;
+		grid-template-areas:
+			"timestamp timestamp timestamp"
+			"repeat views likes";
+	}
+
+	td:not(.repeat, .timestamp) {
+		border-left: 1px solid black;
+	}
+
+	.timestamp {
+		grid-area: timestamp;
+		text-wrap: balance;
+		font-weight: bolder;
+	}
+
+	.repeat {
+		grid-area: repeat;
+	}
+}
