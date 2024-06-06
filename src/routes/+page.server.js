@@ -10,8 +10,17 @@ export const actions = {
 const Key = z.enum(["scheduled_on", "created_at", "recent_views", "interval"]);
 const Ordering = z.enum(["asc", "desc"]);
 
-async function getTrackers({ search, key, order }) {
-	return await surreal.query(`
+async function getTrackers({ page, pageSize, search, key, order }) {
+	const [allItems] = await surreal.query(`select id from trackers where title @1@ $search OR video contains $search;`, { search });
+
+	const count = allItems.length;
+
+	const totalPages = Math.ceil(count / pageSize);
+	const currentPage = Math.min(page, totalPages);
+
+	const start = (currentPage - 1) * pageSize;
+
+	const [content] = await surreal.query(`
 		select
 			id,
 			created_at,
@@ -31,9 +40,14 @@ async function getTrackers({ search, key, order }) {
 			title @1@ $search OR video contains $search
 		order by
 			${key} ${order} -- SQL injection!! Surreal does not support this level of dynamic SQL, make sure to validate them before using them in a query
+		START $start LIMIT $pageSize
 		fetch stats;
-	`, { search });
+	`, { search, start, pageSize });
 
+	const isFirstPage = page === 1;
+	const isLastPage = page === totalPages;
+
+	return { content, isFirstPage, isLastPage, totalPages, currentPage, pageSize };
 }
 
 export async function load({ url }) {
@@ -41,13 +55,18 @@ export async function load({ url }) {
 	const rawKey = url.searchParams.get('key') ?? "scheduled_on";
 	const rawOrder = url.searchParams.get('order') ?? "desc";
 
+	const rawPage = url.searchParams.get('page') ?? "1";
+	const rawPageSize = url.searchParams.get('pageSize') ?? "100";
+
 	const key = Key.parse(rawKey);
 	const order = Ordering.parse(rawOrder);
+	const page = parseInt(rawPage, 10);
+	const pageSize = parseInt(rawPageSize, 10);
 
-	const [trackers = []] = await getTrackers({ search, key, order });
+	const result = await getTrackers({ page, pageSize, search, key, order });
 
 	return {
 		form: { search, key, order },
-		trackers
+		trackers: result
 	};
 }

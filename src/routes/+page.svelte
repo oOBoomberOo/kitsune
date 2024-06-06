@@ -2,6 +2,7 @@
 	import humannumber from 'human-number';
 	import { absoluteDate, relativeDate } from '$lib/timing';
 	import Prediction from '$lib/components/Prediction.svelte';
+	import Paginator from '$lib/components/Paginator.svelte';
 
 	export let data;
 
@@ -39,11 +40,15 @@
 		/>
 		<button type="submit">Search</button>
 	</form>
+
+	<div>
+		<Paginator pageData={trackers} />
+	</div>
 </section>
 
 <section>
 	<ul class="container">
-		{#each trackers as tracker (tracker.id)}
+		{#each trackers.content as tracker (tracker.id)}
 			<li>
 				<a href="/tracker/{tracker.id}">
 					<article class="card" class:stopped={tracker.stopped}>
@@ -113,6 +118,9 @@
 
 		background: white;
 		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		place-items: center;
 		place-content: center;
 
 		padding: 15px;
@@ -295,7 +303,5 @@
 		}
 		
 
-		footer {
-		}
 	}
 </style>

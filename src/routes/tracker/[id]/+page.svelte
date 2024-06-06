@@ -1,4 +1,5 @@
 <script>
+	import Paginator from '$lib/components/Paginator.svelte';
 	import { absoluteDate } from '$lib/timing';
 
 	export let data;
@@ -51,6 +52,10 @@
 	<button on:click={copyStatsToClipboard}>Copy to Clipboard</button>
 </div>
 
+<div class="paginate">
+	<Paginator pageData={data} />
+</div>
+
 <table class="stats">
 	<thead>
 		<th>Duplicate</th>
@@ -83,5 +88,10 @@
 		display: flex;
 		justify-content: flex-end;
 		margin-bottom: 1em;
+	}
+
+	.paginate {
+		display: flex;
+		flex-direction: column;
 	}
 </style>

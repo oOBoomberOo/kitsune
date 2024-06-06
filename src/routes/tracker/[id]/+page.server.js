@@ -37,8 +37,30 @@ export const actions = {
 	},
 }
 
-export async function load({ params }) {
+function parseNumber(input, fallback) {
+	if (!input) {
+		return fallback;
+	}
+
+	const number = parseInt(input);
+	return isNaN(number) ? fallback : number;
+}
+
+export async function load({ params, url }) {
 	const trackerId = params.id;
+
+	const page = parseNumber(url.searchParams.get('page'), 1);
+	const pageSize = parseNumber(url.searchParams.get('pageSize'), 100);
+
+	const [allRecords] = await surreal.query(`select id from records where tracker = $tracker;`, { tracker: trackerId });
+	const count = allRecords.length;
+
+	const totalPages = Math.ceil(count / pageSize);
+	const currentPage = Math.min(page, totalPages);
+
+	const start = (currentPage - 1) * pageSize;
+	const isFirstPage = page === 1;
+	const isLastPage = page === totalPages;
 
 	const [records, logs] = await surreal.query(`
 		select
@@ -48,7 +70,8 @@ export async function load({ params }) {
 		where
 			tracker = $tracker
 		order by
-			created_at desc;
+			created_at desc
+		start $start limit $pageSize;
 
 		select
 			*
@@ -56,11 +79,15 @@ export async function load({ params }) {
 			logs
 		where
 			<-wrote<-trackers contains $tracker;
-	`, { tracker: trackerId });
+	`, { tracker: trackerId, start, pageSize });
 
 	return {
 		id: trackerId,
 		records,
 		logs,
+		isFirstPage,
+		isLastPage,
+		currentPage,
+		totalPages,
 	}
 }
