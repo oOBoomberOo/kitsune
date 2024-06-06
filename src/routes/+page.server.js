@@ -31,9 +31,7 @@ async function getTrackers({ page, pageSize, search, key, order }) {
 			duration::millis(interval) as interval_ms,
 			milestone,
 			video,
-			search::highlight('<em>', '</em>', 1) as title,
-			math::max(->recorded->records.views) as current_views,
-			array::last(array::sort(->recorded->records.created_at)) as recent_views
+			search::highlight('<em>', '</em>', 1) as title
 		from
 			trackers
 		where

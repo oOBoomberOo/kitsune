@@ -57,19 +57,6 @@
 						</header>
 
 						<section class="property">
-							{#if tracker.milestone}
-								{@const views = tracker.current_views ?? 0}
-
-								<div class="milestone">
-									<progress value={views} max={tracker.milestone} />
-
-									<div class="subtext">
-										<span>{number(views)}</span>
-										<span>{number(tracker.milestone)}</span>
-									</div>
-								</div>
-							{/if}
-
 							<div class="timestamp">
 								Every <em>{tracker.interval}</em>
 								@ <time datetime={tracker.scheduled_on}>{absoluteDate(tracker.scheduled_on)}</time>
