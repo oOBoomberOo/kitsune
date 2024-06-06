@@ -62,7 +62,7 @@ export async function load({ params, url }) {
 	const isFirstPage = page === 1;
 	const isLastPage = page === totalPages;
 
-	const [records, logs] = await surreal.query(`
+	const [records] = await surreal.query(`
 		select
 			id, created_at, views, likes
 		from
@@ -72,19 +72,11 @@ export async function load({ params, url }) {
 		order by
 			created_at desc
 		start $start limit $pageSize;
-
-		select
-			*
-		from
-			logs
-		where
-			<-wrote<-trackers contains $tracker;
 	`, { tracker: trackerId, start, pageSize });
 
 	return {
 		id: trackerId,
 		records,
-		logs,
 		isFirstPage,
 		isLastPage,
 		currentPage,
