@@ -13,7 +13,7 @@
 	
 
 	async function changePage(target: number) {
-		const n = Math.max(Math.min(target, 1), pageData.totalPages);
+		const n = Math.min(Math.max(target, 1), pageData.totalPages);
 
 		const query = $page.url.searchParams;
 		query.set("page", n.toString());
