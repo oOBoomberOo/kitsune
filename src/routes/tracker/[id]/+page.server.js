@@ -55,10 +55,10 @@ export async function load({ params, url }) {
 	const [allRecords] = await surreal.query(`select id from records where tracker = $tracker;`, { tracker: trackerId });
 	const count = allRecords.length;
 
-	const totalPages = Math.ceil(count / pageSize);
+	const totalPages = Math.ceil(count / pageSize) + 1;
 	const currentPage = Math.min(page, totalPages);
 
-	const start = (currentPage - 1) * pageSize;
+	const start = Math.max((currentPage - 1) * pageSize, 0);
 	const isFirstPage = page === 1;
 	const isLastPage = page === totalPages;
 

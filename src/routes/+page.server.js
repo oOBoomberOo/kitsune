@@ -15,10 +15,10 @@ async function getTrackers({ page, pageSize, search, key, order }) {
 
 	const count = allItems.length;
 
-	const totalPages = Math.ceil(count / pageSize);
+	const totalPages = Math.ceil(count / pageSize) + 1;
 	const currentPage = Math.min(page, totalPages);
 
-	const start = (currentPage - 1) * pageSize;
+	const start = Math.max((currentPage - 1) * pageSize, 0);
 
 	const [content] = await surreal.query(`
 		select
